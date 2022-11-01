@@ -11,9 +11,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/petrosyan.petros.2001/compiler.git"
+    "url": "git+https://github.com/Petrosyan2001/compiler-serve.git"
   },
-  "author": "petrosyan.petros.2001 <petrosyan.petros.2001@gmail.com>",
+  "author": "petrosyan.petros.2001 <petros-petrosyan-51@mail.ru>",
   "keywords": [
     "compiler",
     "node"
