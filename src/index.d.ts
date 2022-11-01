@@ -1,6 +1,7 @@
-
+import { Language } from "./enums/language";
 export declare class Compiler {
-    constructor(password: string);
+    public language: Language
+    constructor();
 
-    start(): string
+   public compile({language}: {language: Language}):void
 }

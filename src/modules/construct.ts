@@ -1,25 +1,23 @@
-import { which,echo, exec, exit, cd } from "shelljs";
+import { which,echo, exec, cd } from "shelljs";
 import { Comands } from "../enums/comands";
 import { Package } from "../enums/package";
+import { Message } from "../enums/message";
 
-const construct = () =>{
+const construct = ():void => {
    if (!which(Package.Make)){
       exec(Comands.Make)
    }
    if (!which(Package.Make)){
-      echo('Sorry, this script requires make');
-      exit()
+      echo(Message.Make);
    }
    if (!which(Package.Ts)){
-      cd('debain/ts-1.0.2');
+      cd('./debain/ts-1.0.2');
       exec(Comands.Ts);
       cd('../../');
    }
    if (!which(Package.Ts)){
-      echo('Sorry, this script requires ts');
-      exit()
+      echo(Message.Ts);
    }
-   exit()
-  }
+}
 
 export default construct

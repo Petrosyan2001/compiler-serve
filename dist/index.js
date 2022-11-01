@@ -4,5 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const main_1 = __importDefault(require("./modules/main"));
-new main_1.default();
+const compiler = new main_1.default();
+console.log(compiler.compile({ language: compiler.languages.Node }));
 exports.default = main_1.default;

@@ -1,6 +1,8 @@
 import Compiler from "./modules/main"
 
-new Compiler();
+const compiler = new Compiler();
+
+compiler.compile({language: compiler.languages.Node, code: 'console.log("Hello")'})
 
 
 export default Compiler
