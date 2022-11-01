@@ -23,8 +23,7 @@ yarn add @compiler-server/compiler
 import { Compiler } from "@compiler-server/compiler"
 
 const compiler = new Compiler();
-
-compiler.start();
+compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")`})
 ```
 
 ## License

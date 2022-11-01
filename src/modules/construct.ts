@@ -2,6 +2,8 @@ import { which,echo, exec, cd } from "shelljs";
 import { Comands } from "../enums/comands";
 import { Package } from "../enums/package";
 import { Message } from "../enums/message";
+import { Languages } from "../modules/language";
+import { Language } from "../enums/language";
 
 const construct = ():void => {
    if (!which(Package.Make)){
@@ -17,6 +19,9 @@ const construct = ():void => {
    }
    if (!which(Package.Ts)){
       echo(Message.Ts);
+   }
+   for (const lang in Languages){
+      Languages[lang as Language].Install()
    }
 }
 

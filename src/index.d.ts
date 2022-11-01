@@ -3,5 +3,8 @@ export declare class Compiler {
     public language: Language
     constructor();
 
-   public compile({language}: {language: Language}):void
+   public compile({language, code}: {language: Language, code: string}):{
+    status: number,
+    data: string
+   }
 }
