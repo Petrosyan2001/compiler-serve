@@ -1,6 +1,9 @@
 export declare const Languages: {
     "Node Js": {
-        Run: () => void;
+        Run: (code: string) => {
+            stdout: string;
+            stderr: string;
+        };
         Install: () => void;
     };
 };

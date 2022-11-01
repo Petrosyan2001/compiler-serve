@@ -5,4 +5,5 @@ var Message;
 (function (Message) {
     Message["Make"] = "Sorry, this script requires make";
     Message["Ts"] = "Sorry, this script requires ts";
+    Message["Node"] = "Sorry, this script requires node";
 })(Message = exports.Message || (exports.Message = {}));
