@@ -1,6 +1,6 @@
 {
-  "name": "@petrosyan.2001/compiler",
-  "version": "1.0.5",
+  "name": "@compiler-server/compiler",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "types": "src/index.d.ts",
   "bin": {
@@ -66,9 +66,9 @@
   ],
   "description": "Compiler Programing Language",
   "bugs": {
-    "url": "https://gitlab.com/petrosyan.petros.2001/compiler/issues"
+    "url": "https://github.com/Petrosyan2001/compiler-serve/issues"
   },
-  "homepage": "https://gitlab.com/petrosyan.petros.2001/compiler#readme",
+  "homepage": "https://github.com/Petrosyan2001/compiler-serve#readme",
   "dependencies": {
     "@types/node": "^18.11.7",
     "@typescript-eslint/eslint-plugin": "^5.41.0",

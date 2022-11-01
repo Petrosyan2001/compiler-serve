@@ -1,26 +1,26 @@
 # Compiler Programing Language
 
-@petrosyan.2001/compiler is a Node.js library for dealing with compiler programing language.
+@compiler-server/compiler is a Node.js library for dealing with compiler programing language.
 OS only Linux (Ubuntu)
 
 ## Installation
 
-Use the package manager [npm](https://www.npmjs.com/) to install @petrosyan.2001/compiler.
+Use the package manager [npm](https://www.npmjs.com/) to install @compiler-server/compiler.
 
 ```bash
-npm install @petrosyan.2001/compiler
+npm install @compiler-server/compiler
 ```
 
 Or [yarn](https://yarnpkg.com/)
 
 ```bash
-yarn add @petrosyan.2001/compiler
+yarn add @compiler-server/compiler
 ```
 
 ## Usage
 
 ```js
-import { Compiler } from "@petrosyan.2001/compiler"
+import { Compiler } from "@compiler-server/compiler"
 
 const compiler = new Compiler();
 
