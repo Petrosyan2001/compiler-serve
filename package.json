@@ -16,7 +16,7 @@
   "author": "petrosyan.petros.2001 <petros-petrosyan-51@mail.ru>",
   "keywords": [
     "compiler",
-    "node"
+    "node js"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
