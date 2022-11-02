@@ -4,4 +4,6 @@ exports.Language = void 0;
 var Language;
 (function (Language) {
     Language["Node"] = "Node Js";
+    Language["C++"] = "C++";
+    Language["C"] = "C";
 })(Language = exports.Language || (exports.Language = {}));

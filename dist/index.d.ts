@@ -1,3 +1,3 @@
 import Compiler from "./modules/main";
-export default Compiler;
+export { Compiler };
 //# sourceMappingURL=index.d.ts.map

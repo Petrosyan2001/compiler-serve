@@ -6,4 +6,6 @@ var Message;
     Message["Make"] = "Sorry, this script requires make";
     Message["Ts"] = "Sorry, this script requires ts";
     Message["Node"] = "Sorry, this script requires node";
+    Message["C++"] = "Sorry, this script requires C++";
+    Message["C"] = "Sorry, this script requires C";
 })(Message = exports.Message || (exports.Message = {}));

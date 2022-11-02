@@ -7,5 +7,7 @@ export enum Comands {
     Dir = 'tmp',
     'DirC++' = 'cplus',
     "C++" = 'gcc',
-    "C++Install" = 'apt-get install build-essential manpages-dev'
+    "C++Install" = 'apt-get install build-essential manpages-dev',
+    C = 'gcc',
+    DirC = 'cdir'
 }

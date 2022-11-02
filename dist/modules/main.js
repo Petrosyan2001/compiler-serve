@@ -11,9 +11,9 @@ class Compiler {
         this.languages = language_1.Language;
         (0, construct_1.default)();
     }
-    compile({ language, code, }) {
+    compile({ language, code, input }) {
         try {
-            const response = language_2.Languages[language].Run(code);
+            const response = language_2.Languages[language].Run(code, input || '');
             if (response.stderr) {
                 throw new Error(response.stderr);
             }
