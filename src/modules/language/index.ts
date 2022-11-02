@@ -1,5 +1,8 @@
 import { Language } from "../../enums/language";
-import {Run, Install} from "./Node"
+import {Run as RNode, Install as INode} from "./Node";
+import {Run as CplucRun, Install as CplucInstall} from "./C++";
+
 export const Languages = {
-  [Language.Node]: {Run, Install}
+  [Language.Node]: {Run: RNode, Install: INode},
+  [Language['C++']]: {Run: CplucRun, Install: CplucInstall}
 }

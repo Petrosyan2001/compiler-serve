@@ -10,15 +10,17 @@ class Compiler {
   public compile({
     language,
     code,
+    input
   }: {
     language: Language;
     code: string;
+    input?: string
   }): {
     status: number,
     data: string
   } {
     try {
-      const response = Languages[language].Run(code);
+      const response = Languages[language].Run(code, input || '');
       if (response.stderr) {
         throw new Error(response.stderr);
       }

@@ -1,3 +1,4 @@
 export enum Language {
-    Node = 'Node Js'
+    Node = 'Node Js',
+    "C++" = 'C++'
 }

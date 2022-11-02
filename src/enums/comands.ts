@@ -4,5 +4,8 @@ export enum Comands {
     Node = 'node',
     KillTs = 'ts -K',
     KillFinished = 'ts -C',
-    Dir = 'tmp'
+    Dir = 'tmp',
+    'DirC++' = 'cplus',
+    "C++" = 'gcc',
+    "C++Install" = 'apt-get install build-essential manpages-dev'
 }
