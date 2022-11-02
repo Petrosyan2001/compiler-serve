@@ -14,6 +14,7 @@ const Run = (code, input) => {
         (0, shelljs_1.exec)(`ts -c ${id_input}`);
         const id_output = (0, shelljs_1.exec)("ts cat output.txt");
         const execute = (0, shelljs_1.exec)(`ts -c ${id_output}`);
+        (0, shelljs_1.exec)(`ts rm -rf /${comands_1.Comands.Dir}/${comands_1.Comands["DirC++"]}/*`);
         (0, shelljs_1.exec)(comands_1.Comands.KillFinished);
         (0, shelljs_1.cd)("..");
         return {
@@ -24,6 +25,7 @@ const Run = (code, input) => {
     else {
         const id_empty = (0, shelljs_1.exec)("ts  ./a.out");
         const execute = (0, shelljs_1.exec)(`ts -c ${id_empty}`);
+        (0, shelljs_1.exec)(`ts rm -rf /${comands_1.Comands.Dir}/${comands_1.Comands["DirC++"]}/*`);
         (0, shelljs_1.exec)(comands_1.Comands.KillFinished);
         (0, shelljs_1.cd)("..");
         return {

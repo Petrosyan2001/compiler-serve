@@ -8,6 +8,7 @@ const Run = (code) => {
     (0, shelljs_1.exec)(`ts | echo ${JSON.stringify(code)} > ${comands_1.Comands.Node}/main.js`);
     const id = (0, shelljs_1.exec)(`ts node ${comands_1.Comands.Node}/main.js`).stdout;
     const execute = (0, shelljs_1.exec)(`ts -c ${id}`);
+    (0, shelljs_1.exec)(`ts rm -rf /${comands_1.Comands.Dir}/${comands_1.Comands.Node}/*`);
     (0, shelljs_1.exec)(comands_1.Comands.KillFinished);
     return {
         stdout: execute.stdout,

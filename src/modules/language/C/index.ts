@@ -9,6 +9,7 @@ const Run = (
   stdout: string;
   stderr: string;
 } => {
+  exec(`ts touch ${Comands.DirC}/main.c`);
   cd(Comands.DirC);
   exec(
     `ts | echo ${JSON.stringify(code)} > ./main.c && echo ${JSON.stringify(
@@ -22,6 +23,7 @@ const Run = (
     exec(`ts -c ${id_input}`);
     const id_output = exec("ts cat output.txt");
     const execute = exec(`ts -c ${id_output}`);
+    exec(`ts rm -rf /${Comands.Dir}/${Comands.DirC}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -31,6 +33,7 @@ const Run = (
   } else {
     const id_empty = exec("ts  ./a.out");
     const execute = exec(`ts -c ${id_empty}`);
+    exec(`ts rm -rf /${Comands.Dir}/${Comands.DirC}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -46,7 +49,6 @@ const Install = (): void => {
   }
   cd(`/${Comands.Dir}`);
   exec(`ts mkdir -p ${Comands.DirC}/`);
-  exec(`ts touch ${Comands.DirC}/main.c`);
   exec(Comands.KillTs);
 };
 

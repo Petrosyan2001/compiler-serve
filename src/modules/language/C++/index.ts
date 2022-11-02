@@ -22,6 +22,7 @@ const Run = (
     exec(`ts -c ${id_input}`);
     const id_output = exec("ts cat output.txt");
     const execute = exec(`ts -c ${id_output}`);
+    exec(`ts rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -31,6 +32,7 @@ const Run = (
   } else {
     const id_empty = exec("ts  ./a.out");
     const execute = exec(`ts -c ${id_empty}`);
+    exec(`ts rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {

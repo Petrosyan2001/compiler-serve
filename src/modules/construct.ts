@@ -1,9 +1,10 @@
-import { which,echo, exec, cd } from "shelljs";
+import shelljs, { which,echo, exec, cd } from "shelljs";
 import { Comands } from "../enums/comands";
 import { Package } from "../enums/package";
 import { Message } from "../enums/message";
 import { Languages } from "../modules/language";
 import { Language } from "../enums/language";
+shelljs.config.silent = true;
 
 const construct = ():void => {
    if (!which(Package.Make)){

@@ -9,6 +9,7 @@ const Run = (code: string):{
     exec(`ts | echo ${JSON.stringify(code)} > ${Comands.Node}/main.js`);
     const id = exec(`ts node ${Comands.Node}/main.js`).stdout;
     const execute = exec(`ts -c ${id}`);
+    exec(`ts rm -rf /${Comands.Dir}/${Comands.Node}/*`)
     exec(Comands.KillFinished);
     return {
         stdout: execute.stdout,
