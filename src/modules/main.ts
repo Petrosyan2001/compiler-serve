@@ -28,7 +28,7 @@ class Compiler {
         status: 200,
         data: response.stdout
       };
-    } catch (e) {
+    } catch (e: any) {
       return {
         status: 400,
         data: e.message
