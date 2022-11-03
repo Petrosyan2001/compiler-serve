@@ -1,6 +1,6 @@
 {
   "name": "@compiler-server/compiler",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "bin": {
     "compiler-lang": "dist/index.js"
   },
