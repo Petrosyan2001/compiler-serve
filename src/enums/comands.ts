@@ -1,8 +1,8 @@
 export enum Comands {
     Ts = "sudo apt-get install -y task-spooler",
     Node = 'node',
-    KillTs = 'ts -K',
-    KillFinished = 'ts -C',
+    KillTs = 'tsp -K',
+    KillFinished = 'tsp -C',
     Dir = 'tmp',
     'DirC++' = 'cplus',
     "C++" = 'gcc',
