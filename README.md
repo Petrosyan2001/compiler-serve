@@ -31,6 +31,7 @@ compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")
 - Node Js
 - C++
 - C
+- Java
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
