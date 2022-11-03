@@ -8,5 +8,8 @@ export enum Comands {
     "C++" = 'gcc',
     "C++Install" = 'apt-get install build-essential manpages-dev',
     C = 'gcc',
-    DirC = 'cdir'
+    DirC = 'cdir',
+    JavaInstall = 'sudo apt install default-jdk',
+    Java = 'javac',
+    JavaDir = 'java'
 }

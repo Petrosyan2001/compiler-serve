@@ -8,7 +8,7 @@ const Run = (code: string):{
 } =>{
     exec(`tsp | echo ${JSON.stringify(code)} > ${Comands.Node}/main.js`);
     const id = exec(`tsp node ${Comands.Node}/main.js`).stdout;
-    const execute = exec(`ts -c ${id}`);
+    const execute = exec(`tsp -c ${id}`);
     exec(`tsp rm -rf /${Comands.Dir}/${Comands.Node}/*`)
     exec(Comands.KillFinished);
     return {
