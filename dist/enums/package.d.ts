@@ -1,5 +1,4 @@
 export declare enum Package {
-    Make = "make",
-    Ts = "ts"
+    Ts = "tsp"
 }
 //# sourceMappingURL=package.d.ts.map

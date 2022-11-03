@@ -1,6 +1,6 @@
 {
   "name": "@compiler-server/compiler",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "dist/index.js",
   "types": "src/index.d.ts",
   "bin": {
@@ -21,7 +21,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "start": "nodemon",
-    "build": "rm -rf dist/ && tsc -p tsconfig.build.json && cp -r ./debain ./dist/debain"
+    "build": "rm -rf dist/ && tsc -p tsconfig.build.json"
   },
   "nodemonConfig": {
     "watch": [

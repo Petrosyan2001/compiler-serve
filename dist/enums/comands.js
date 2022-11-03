@@ -4,7 +4,7 @@ exports.Comands = void 0;
 var Comands;
 (function (Comands) {
     Comands["Make"] = "sudo apt install build-essential";
-    Comands["Ts"] = "sudo make install";
+    Comands["Ts"] = "sudo apt-get install -y task-spooler";
     Comands["Node"] = "node";
     Comands["KillTs"] = "ts -K";
     Comands["KillFinished"] = "ts -C";

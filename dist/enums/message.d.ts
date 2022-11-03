@@ -1,6 +1,5 @@
 export declare enum Message {
-    Make = "Sorry, this script requires make",
-    Ts = "Sorry, this script requires ts",
+    Ts = "Sorry, this script requires tsp",
     Node = "Sorry, this script requires node",
     'C++' = "Sorry, this script requires C++",
     C = "Sorry, this script requires C"

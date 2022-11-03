@@ -1,6 +1,6 @@
 export declare enum Comands {
     Make = "sudo apt install build-essential",
-    Ts = "sudo make install",
+    Ts = "sudo apt-get install -y task-spooler",
     Node = "node",
     KillTs = "ts -K",
     KillFinished = "ts -C",

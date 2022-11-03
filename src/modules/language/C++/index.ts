@@ -11,18 +11,18 @@ const Run = (
 } => {
   cd(Comands["DirC++"]);
   exec(
-    `ts | echo ${JSON.stringify(code)} > ./main.cpp && echo ${JSON.stringify(
+    `tsp | echo ${JSON.stringify(code)} > ./main.cpp && echo ${JSON.stringify(
       input
     )} > ./input.txt`
   );
-  const id = exec(`ts g++ ./main.cpp`).stdout;
-  exec(`ts -c ${id}`);
+  const id = exec(`tsp g++ ./main.cpp`).stdout;
+  exec(`tsp -c ${id}`);
   if (input) {
-    const id_input = exec("ts |  ./a.out  < input.txt > output.txt");
-    exec(`ts -c ${id_input}`);
-    const id_output = exec("ts cat output.txt");
-    const execute = exec(`ts -c ${id_output}`);
-    exec(`ts rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
+    const id_input = exec("tsp |  ./a.out  < input.txt > output.txt");
+    exec(`tsp -c ${id_input}`);
+    const id_output = exec("tsp cat output.txt");
+    const execute = exec(`tsp -c ${id_output}`);
+    exec(`tsp rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -30,9 +30,9 @@ const Run = (
       stderr: execute.stderr,
     };
   } else {
-    const id_empty = exec("ts  ./a.out");
-    const execute = exec(`ts -c ${id_empty}`);
-    exec(`ts rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
+    const id_empty = exec("tsp  ./a.out");
+    const execute = exec(`tsp -c ${id_empty}`);
+    exec(`tsp rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -50,8 +50,8 @@ const Install = (): void => {
     echo(Message["C++"]);
   }
   cd(`/${Comands.Dir}`);
-  exec(`ts mkdir -p ${Comands["DirC++"]}/`);
-  exec(`ts touch ${Comands["DirC++"]}/main.cpp`);
+  exec(`tsp mkdir -p ${Comands["DirC++"]}/`);
+  exec(`tsp touch ${Comands["DirC++"]}/main.cpp`);
   exec(Comands.KillTs);
 };
 

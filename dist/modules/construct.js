@@ -30,16 +30,8 @@ const message_1 = require("../enums/message");
 const language_1 = require("../modules/language");
 shelljs_1.default.config.silent = true;
 const construct = () => {
-    if (!(0, shelljs_1.which)(package_1.Package.Make)) {
-        (0, shelljs_1.exec)(comands_1.Comands.Make);
-    }
-    if (!(0, shelljs_1.which)(package_1.Package.Make)) {
-        (0, shelljs_1.echo)(message_1.Message.Make);
-    }
     if (!(0, shelljs_1.which)(package_1.Package.Ts)) {
-        (0, shelljs_1.cd)('./debain/ts-1.0.2');
         (0, shelljs_1.exec)(comands_1.Comands.Ts);
-        (0, shelljs_1.cd)('../../');
     }
     if (!(0, shelljs_1.which)(package_1.Package.Ts)) {
         (0, shelljs_1.echo)(message_1.Message.Ts);

@@ -6,10 +6,10 @@ const Run = (code: string):{
     stdout: string,
     stderr: string
 } =>{
-    exec(`ts | echo ${JSON.stringify(code)} > ${Comands.Node}/main.js`);
-    const id = exec(`ts node ${Comands.Node}/main.js`).stdout;
+    exec(`tsp | echo ${JSON.stringify(code)} > ${Comands.Node}/main.js`);
+    const id = exec(`tsp node ${Comands.Node}/main.js`).stdout;
     const execute = exec(`ts -c ${id}`);
-    exec(`ts rm -rf /${Comands.Dir}/${Comands.Node}/*`)
+    exec(`tsp rm -rf /${Comands.Dir}/${Comands.Node}/*`)
     exec(Comands.KillFinished);
     return {
         stdout: execute.stdout,
@@ -22,8 +22,8 @@ const Install = ():void =>{
       echo(Message.Node)
     }
     cd(`/${Comands.Dir}`)
-    exec(`ts mkdir -p ${Comands.Node}/`)
-    exec(`ts touch ${Comands.Node}/main.js`)
+    exec(`tsp mkdir -p ${Comands.Node}/`)
+    exec(`tsp touch ${Comands.Node}/main.js`)
     exec(Comands.KillTs)
 }
 
