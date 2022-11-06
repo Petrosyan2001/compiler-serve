@@ -2,15 +2,21 @@ import { which,echo, exec, cd } from "shelljs";
 import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
 
-const Run = (code: string):{
+const Run = (code: string, _:string, timeout: number):{
     stdout: string,
     stderr: string
 } =>{
     exec(`tsp | echo ${JSON.stringify(code)} > ${Comands.Node}/main.js`);
     const id = exec(`tsp node ${Comands.Node}/main.js`).stdout;
-    const execute = exec(`tsp -c ${id}`);
+    const options:{
+        timeout?: number 
+    } = {}
+    if (timeout){
+     options.timeout = timeout
+    }
+    const execute = exec(`tsp -c ${id}`,options);
+    exec(`tsp -k ${id}`);
     exec(`tsp rm -rf /${Comands.Dir}/${Comands.Node}/*`)
-    exec(Comands.KillFinished);
     return {
         stdout: execute.stdout,
         stderr: execute.stderr

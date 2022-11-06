@@ -11,10 +11,11 @@ class Compiler {
   public compile({
     language,
     code,
-    input
+    input,
+    timeout
   }:ICompileArg):ICompileResult {
     try {
-      const response = Languages[language].Run(code, input || '');
+      const response = Languages[language].Run(code, input || '', timeout || 0);
       if (response.stderr) {
         throw new Error(response.stderr);
       }

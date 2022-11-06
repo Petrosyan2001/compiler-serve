@@ -4,25 +4,32 @@ import { Message } from "../../../enums/message";
 
 const Run = (
   code: string,
-  input: string
+  input: string,
+  timeout: number
 ): {
   stdout: string;
   stderr: string;
 } => {
   cd(Comands["DirC++"]);
-  exec(
+  const options: {
+    timeout?: number;
+  } = {};
+  if (timeout) {
+    options.timeout = timeout;
+  }
+  const start = exec(
     `tsp | echo ${JSON.stringify(code)} > ./main.cpp && echo ${JSON.stringify(
       input
     )} > ./input.txt`
-  );
-  const id = exec(`tsp g++ ./main.cpp`).stdout;
-  exec(`tsp -c ${id}`);
+  ).stdout;
+  exec(`tsp -c ${start}`)
+  const id = exec(`tsp g++ ./main.cpp`, options).stdout;
+  exec(`tsp -c ${id}`,options);
   if (input) {
-    const id_input = exec("tsp |  ./a.out  < input.txt > output.txt");
-    exec(`tsp -c ${id_input}`);
-    const id_output = exec("tsp cat output.txt");
-    const execute = exec(`tsp -c ${id_output}`);
-    exec(`tsp rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
+    const id_output = exec("./a.out  < input.txt > output.txt && tsp cat output.txt",options).stdout;
+    const execute = exec(`tsp -c ${id_output}`,options);
+    exec(`tsp -k ${id_output}`);
+    exec(`rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
     exec(Comands.KillFinished);
     cd("..");
     return {
@@ -30,9 +37,8 @@ const Run = (
       stderr: execute.stderr,
     };
   } else {
-    const id_empty = exec("tsp  ./a.out");
-    const execute = exec(`tsp -c ${id_empty}`);
-    exec(`tsp rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
+    const execute = exec("./a.out",options);
+    exec(`rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`,options)
     exec(Comands.KillFinished);
     cd("..");
     return {
