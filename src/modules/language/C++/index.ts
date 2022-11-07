@@ -1,51 +1,86 @@
+/* eslint-disable @typescript-eslint/await-thenable */
+/* eslint-disable @typescript-eslint/require-await */
 import { which, echo, exec, cd } from "shelljs";
 import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
+import * as fs from "fs";
 
-const Run = (
+const Run = async (
   code: string,
   input: string,
   timeout: number
-): {
+): Promise<{
   stdout: string;
   stderr: string;
-} => {
-  cd(Comands["DirC++"]);
+}> => {
+  const process = cd(`/${Comands.Dir}/${Comands["DirC++"]}`);
+  process.exec("tsp rm -rf *");
+  process.exec(`tsp touch ./main.sh`);
+  process.exec(`tsp touch ./main.cpp`);
   const options: {
     timeout?: number;
   } = {};
   if (timeout) {
     options.timeout = timeout;
   }
-  const start = exec(
-    `tsp | echo ${JSON.stringify(code)} > ./main.cpp && echo ${JSON.stringify(
+  const commands = [
+    `
+  echo ${JSON.stringify(code)} > ./main.cpp && echo ${JSON.stringify(
       input
-    )} > ./input.txt`
-  ).stdout;
-  exec(`tsp -c ${start}`)
-  const id = exec(`tsp g++ ./main.cpp`, options).stdout;
-  exec(`tsp -c ${id}`,options);
+    )} > ./input.txt
+  `,
+    `\n`,
+    "g++ ./main.cpp",
+    `\n`,
+  ];
   if (input) {
-    const id_output = exec("./a.out  < input.txt > output.txt && tsp cat output.txt",options).stdout;
-    const execute = exec(`tsp -c ${id_output}`,options);
-    exec(`tsp -k ${id_output}`);
-    exec(`rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`)
-    exec(Comands.KillFinished);
-    cd("..");
-    return {
-      stdout: execute.stdout,
-      stderr: execute.stderr,
-    };
+    commands.push("./a.out  < input.txt > output.txt");
   } else {
-    const execute = exec("./a.out",options);
-    exec(`rm -rf /${Comands.Dir}/${Comands["DirC++"]}/*`,options)
-    exec(Comands.KillFinished);
-    cd("..");
-    return {
-      stdout: execute.stdout,
-      stderr: execute.stderr,
-    };
+    commands.push("./a.out  > output.txt");
   }
+  commands.push(`\n`);
+  commands.push("rm -rf a.out && rm -rf input.txt && rm -rf main.cpp");
+  commands.push(`\n`);
+  commands.push("cat output.txt");
+  await fs.writeFileSync(
+    `/${Comands.Dir}/${Comands["DirC++"]}/main.sh`,
+    commands.join(" "),
+    "utf8"
+  );
+  const id_start: number = await new Promise((resolve, reject) => {
+    return process.exec(
+      `tsp sh ./main.sh`,
+      { ...options, async: true },
+      (codes: number, stdout: string, stderr: string) => {
+        if (!codes && !stderr) {
+          resolve(+stdout);
+        } else {
+          reject(stderr);
+        }
+      }
+    );
+  });
+  if (typeof id_start !== "number") {
+    throw new Error("not get proccess id");
+  }
+  const execute: {
+    stdout: string;
+    stderr: string;
+  } = await new Promise((resolve) => {
+    return process.exec(
+      `tsp -c ${id_start}`,
+      { ...options, async: true },
+      (_: number, stdout: string, stderr: string) => {
+        process.exec(`tsp -k ${id_start}`);
+        resolve({
+          stdout,
+          stderr,
+        });
+      }
+    );
+  });
+  process.exec(Comands.KillFinished);
+  return execute;
 };
 
 const Install = (): void => {
@@ -55,9 +90,7 @@ const Install = (): void => {
   if (!which(Comands["C++"])) {
     echo(Message["C++"]);
   }
-  cd(`/${Comands.Dir}`);
-  exec(`tsp mkdir -p ${Comands["DirC++"]}/`);
-  exec(`tsp touch ${Comands["DirC++"]}/main.cpp`);
+  exec(`tsp mkdir -p /${Comands.Dir}/${Comands["DirC++"]}/`);
   exec(Comands.KillTs);
 };
 

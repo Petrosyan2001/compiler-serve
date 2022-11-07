@@ -8,19 +8,16 @@ class Compiler {
     __construct();
   }
 
-  public compile({
+  public async compile({
     language,
     code,
     input,
     timeout
-  }:ICompileArg):ICompileResult {
+  }:ICompileArg):Promise<ICompileResult> {
     try {
-      const response = Languages[language].Run(code, input || '', timeout || 0);
-      if (response.stderr) {
-        throw new Error(response.stderr);
-      }
+      const response = await Languages[language].Run(code, input || '', timeout || 0);
       return {
-        data: response.stdout,
+        data: response.stdout || response.stderr,
       };
     } catch (e: unknown) {
       return {
