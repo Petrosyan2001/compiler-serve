@@ -1,22 +1,19 @@
-/* eslint-disable @typescript-eslint/await-thenable */
-/* eslint-disable @typescript-eslint/require-await */
-import { which, echo, exec, cd } from "shelljs";
+import { which, echo, exec } from "shelljs";
 import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
 import * as fs from "fs";
+import { IArg, IResult } from "../../../interfaces/module.interface";
 
-const Run = async (
-  code: string,
-  input: string,
-  timeout: number
-): Promise<{
-  stdout: string;
-  stderr: string;
-}> => {
-  const process = cd(`/${Comands.Dir}/${Comands.DirC}`);
-  process.exec("tsp rm -rf *");
-  process.exec(`tsp touch ./main.sh`);
-  process.exec(`tsp touch ./main.c`);
+const Run = async ({
+  code,
+  input,
+  timeout,
+  similarWorkingJobCount,
+}: IArg): Promise<IResult> => {
+  const time = Date.now();
+  const process = exec(
+    `tsp -S ${similarWorkingJobCount} && mkdir -p /${Comands.Dir}/${Comands.DirC}/ && mkdir -p /${Comands.Dir}/${Comands.DirC}/${time} && touch /${Comands.Dir}/${Comands.DirC}/${time}/main.sh && touch /${Comands.Dir}/${Comands.DirC}/${time}/main.c`
+  );
   const options: {
     timeout?: number;
   } = {};
@@ -24,11 +21,15 @@ const Run = async (
     options.timeout = timeout;
   }
   const commands = [
-    `echo ${JSON.stringify(code)} > ./main.c && echo ${JSON.stringify(
-      input
-    )} > ./input.txt`,
+    `cd /${Comands.Dir}/${Comands.DirC}/${time}/`,
     `\n`,
-    "gcc ./main.c",
+    `echo ${JSON.stringify(code)} > /${Comands.Dir}/${
+      Comands.DirC
+    }/${time}/main.c && echo ${JSON.stringify(input)} > /${Comands.Dir}/${
+      Comands.DirC
+    }/${time}/input.txt`,
+    `\n`,
+    `gcc /${Comands.Dir}/${Comands.DirC}/${time}/main.c`,
     `\n`,
   ];
   if (input) {
@@ -37,56 +38,45 @@ const Run = async (
     commands.push("./a.out  > output.txt");
   }
   commands.push(`\n`);
-  commands.push("rm -rf a.out && rm -rf input.txt && rm -rf main.c");
-  commands.push(`\n`);
-  commands.push("cat output.txt");
+  commands.push(`cat /${Comands.Dir}/${Comands.DirC}/${time}/output.txt`);
   await fs.writeFileSync(
-    `/${Comands.Dir}/${Comands.DirC}/main.sh`,
+    `/${Comands.Dir}/${Comands.DirC}/${time}/main.sh`,
     commands.join(" "),
     "utf8"
   );
-  const id_start: number = await new Promise((resolve, reject) => {
-    return process.exec(
-      `tsp sh ./main.sh`,
-      { ...options, async: true },
-      (codes: number, stdout: string, stderr: string) => {
-        if (!codes && !stderr) {
-          resolve(+stdout);
-        } else {
-          reject(stderr);
-        }
-      }
-    );
-  });
-  if (typeof id_start !== "number") {
+  const execute = process.exec(
+    `tsp sh /${Comands.Dir}/${Comands.DirC}/${time}/main.sh`,
+    { ...options }
+  );
+  if (!execute?.stdout || execute?.stderr) {
     throw new Error("not get proccess id");
   }
-  const execute: {
-    stdout: string;
-    stderr: string;
-  } = await new Promise((resolve) => {
-    return process.exec(
-      `tsp -c ${id_start}`,
-      { ...options, async: true },
-      (_: number, stdout: string, stderr: string) => {
-        process.exec(`tsp -k ${id_start}`);
-        resolve({
-          stdout,
-          stderr,
-        });
-      }
-    );
-  });
-  process.exec(Comands.KillFinished);
-  return execute;
+  const id = +execute.stdout;
+  if (typeof id !== "number") {
+    throw new Error("not get proccess id");
+  }
+  const timer = setTimeout(async () => {
+    await new Promise((resolve) => {
+      process.exec(
+        `rm -rf /${Comands.Dir}/${Comands.DirC}/${time}`,
+        { ...options, async: true },
+        (codes) => {
+          resolve(codes);
+        }
+      );
+    });
+    clearTimeout(timer);
+  }, timeout || 1000);
+  return {
+    id,
+    start_date: time,
+  };
 };
 
 const Install = (): void => {
   if (!which(Comands.C)) {
     echo(Message.C);
   }
-  exec(`tsp mkdir -p /${Comands.Dir}/${Comands.DirC}/`);
-  exec(Comands.KillTs);
 };
 
 export { Run, Install };

@@ -1,6 +1,6 @@
 {
   "name": "@compiler-server/compiler",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "bin": {
     "compiler-lang": "dist/index.js"
   },
@@ -63,6 +63,7 @@
     "plugins": [
       "@typescript-eslint"
     ],
+    "ignorePatterns": ["*.interface.ts"],
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
@@ -84,9 +85,12 @@
       "@typescript-eslint/no-empty-function": 0,
       "@typescript-eslint/no-unsafe-argument": 0,
       "@typescript-eslint/no-unsafe-call": 0,
+      "@typescript-eslint/await-thenable": 0,
       "no-undef": 0,
       "max-len": 0,
-      "@typescript-eslint/restrict-template-expressions": 0
+      "@typescript-eslint/restrict-template-expressions": 0,
+      "@typescript-eslint/require-await": 0,
+      "@typescript-eslint/no-misused-promises": 0
     }
   },
   "eslintIgnore": [

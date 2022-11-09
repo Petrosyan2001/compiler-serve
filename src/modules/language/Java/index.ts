@@ -1,22 +1,19 @@
-/* eslint-disable @typescript-eslint/await-thenable */
-/* eslint-disable @typescript-eslint/require-await */
-import { which, echo, exec, cd } from "shelljs";
+import { which, echo, exec } from "shelljs";
 import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
 import * as fs from "fs";
+import { IArg, IResult } from "../../../interfaces/module.interface";
 
-const Run = async (
-  code: string,
-  input: string,
-  timeout: number
-): Promise<{
-  stdout: string;
-  stderr: string;
-}> => {
-  const process = cd(`/${Comands.Dir}/${Comands.JavaDir}`);
-  process.exec("tsp rm -rf *");
-  process.exec(`tsp touch ./main.sh`);
-  process.exec(`tsp touch ./main.java`);
+const Run = async ({
+  code,
+  input,
+  timeout,
+  similarWorkingJobCount,
+}: IArg): Promise<IResult> => {
+  const time = Date.now();
+  const process = exec(
+    `tsp -S ${similarWorkingJobCount} && mkdir -p /${Comands.Dir}/${Comands.JavaDir} && mkdir -p /${Comands.Dir}/${Comands.JavaDir}/${time} && touch /${Comands.Dir}/${Comands.JavaDir}/${time}/main.sh && touch /${Comands.Dir}/${Comands.JavaDir}/${time}/main.java`
+  );
   const options: {
     timeout?: number;
   } = {};
@@ -25,62 +22,56 @@ const Run = async (
   }
   const commands = [
     `
-    echo ${JSON.stringify(code)} > ./main.java && echo ${JSON.stringify(
-      input
-    )} > ./input.txt
+    echo ${JSON.stringify(code)} > /${Comands.Dir}/${
+      Comands.JavaDir
+    }/${time}/main.java && echo ${JSON.stringify(input)} > /${Comands.Dir}/${
+      Comands.JavaDir
+    }/${time}/input.txt
   `,
     `\n`,
-    "javac ./main.java",
+    `javac /${Comands.Dir}/${Comands.JavaDir}/${time}/main.java`,
     `\n`,
   ];
   if (input) {
-    commands.push("java Main  < input.txt > output.txt");
+    commands.push(
+      `java -Xms128m -Xmx512m -classpath "/${Comands.Dir}/${Comands.JavaDir}/${time}/" Main  < /${Comands.Dir}/${Comands.JavaDir}/${time}/input.txt > /${Comands.Dir}/${Comands.JavaDir}/${time}/output.txt`
+    );
   } else {
-    commands.push("java Main > output.txt");
+    commands.push(
+      `java -Xms128m -Xmx512m -classpath "/${Comands.Dir}/${Comands.JavaDir}/${time}/" Main > /${Comands.Dir}/${Comands.JavaDir}/${time}/output.txt`
+    );
   }
   commands.push(`\n`);
-  commands.push("rm -rf input.txt && rm -rf main.java");
-  commands.push(`\n`);
-  commands.push("cat output.txt");
+  commands.push(`cat /${Comands.Dir}/${Comands.JavaDir}/${time}/output.txt`);
   await fs.writeFileSync(
-    `/${Comands.Dir}/${Comands.JavaDir}/main.sh`,
+    `/${Comands.Dir}/${Comands.JavaDir}/${time}/main.sh`,
     commands.join(" "),
     "utf8"
   );
-  const id_start: number = await new Promise((resolve, reject) => {
-    return process.exec(
-      `tsp sh ./main.sh`,
-      { ...options, async: true },
-      (codes: number, stdout: string, stderr: string) => {
-        if (!codes && !stderr) {
-          resolve(+stdout);
-        } else {
-          reject(stderr);
-        }
-      }
-    );
-  });
-  if (typeof id_start !== "number") {
+  const execute = process.exec(
+    `tsp sh /${Comands.Dir}/${Comands.JavaDir}/${time}/main.sh`,
+    { ...options }
+  );
+  if (!execute?.stdout || execute?.stderr) {
     throw new Error("not get proccess id");
   }
-  const execute: {
-    stdout: string;
-    stderr: string;
-  } = await new Promise((resolve) => {
-    return process.exec(
-      `tsp -c ${id_start}`,
+  const id = +execute.stdout;
+  if (typeof id !== "number") {
+    throw new Error("not get proccess id");
+  }
+  await new Promise((resolve) => {
+    process.exec(
+      `rm -rf /${Comands.Dir}/${Comands.JavaDir}/${time}`,
       { ...options, async: true },
-      (_: number, stdout: string, stderr: string) => {
-        process.exec(`tsp -k ${id_start}`);
-        resolve({
-          stdout,
-          stderr,
-        });
+      (codes) => {
+        resolve(codes);
       }
     );
   });
-  process.exec(Comands.KillFinished);
-  return execute;
+  return {
+    id,
+    start_date: time,
+  };
 };
 
 const Install = (): void => {
@@ -90,9 +81,6 @@ const Install = (): void => {
   if (!which(Comands.Java)) {
     echo(Message.Java);
   }
-  exec(`tsp mkdir -p /${Comands.Dir}/${Comands.JavaDir}/`);
-  exec(`tsp touch /${Comands.Dir}/${Comands.JavaDir}/main.java`);
-  exec(Comands.KillTs);
 };
 
 export { Run, Install };
