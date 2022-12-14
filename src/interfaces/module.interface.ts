@@ -2,7 +2,8 @@ export interface IArg {
     code: string,
     timeout?: number,
     input: string,
-    similarWorkingJobCount: number
+    similarWorkingJobCount: number,
+    afterRunTest?: string
 }
 
 export interface IResult {

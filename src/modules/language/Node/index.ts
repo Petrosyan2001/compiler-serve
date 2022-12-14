@@ -8,6 +8,7 @@ const Run = async ({
   code,
   timeout,
   similarWorkingJobCount,
+  afterRunTest
 }: IArg): Promise<IResult> => {
   const time = Date.now();
   const process = exec(
@@ -21,7 +22,9 @@ const Run = async ({
   }
   await fs.writeFileSync(
     `/${Comands.Dir}/${Comands.Node}/${time}/main.js`,
-    code,
+    `${code}
+    ${afterRunTest || ''}
+    `,
     "utf8"
   );
   const execute = process.exec(
@@ -35,15 +38,18 @@ const Run = async ({
   if (typeof id !== "number") {
     throw new Error("not get proccess id");
   }
+  const timer = setTimeout(async () =>{
   await new Promise((resolve) => {
     process.exec(
-      `rm -rf /${Comands.Dir}/${Comands.Node}/${time}`,
+      `rm -rf /${Comands.Dir}/${Comands.Node}/${time} && tsp -r ${id}`,
       { ...options, async: true },
       (codes) => {
         resolve(codes);
       }
     );
   });
+  clearTimeout(timer)
+ },timeout)
   return {
     id,
     start_date: time,

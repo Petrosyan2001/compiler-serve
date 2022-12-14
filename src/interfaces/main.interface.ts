@@ -9,7 +9,9 @@ export interface ICompileArg {
     //wait timeout
     timeout?: number,
     //get/set the number of max simultaneous jobs of the server.
-    similarWorkingJobCount?: number
+    similarWorkingJobCount?: number,
+    //after run code run unit test
+    afterRunTest?: string
 }
 export interface ICompileResult {
     data?: string,

@@ -19,6 +19,7 @@ class Compiler {
     input,
     timeout,
     similarWorkingJobCount,
+    afterRunTest
   }: ICompileArg): Promise<ICompileResult> {
     try {
       const { id, start_date } = await Languages[language].Run({
@@ -26,6 +27,7 @@ class Compiler {
         input: input || "",
         timeout,
         similarWorkingJobCount: similarWorkingJobCount || 1,
+        afterRunTest
       });
       const options: {
         timeout?: number;
