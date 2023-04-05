@@ -23,7 +23,7 @@ const Run = async ({
   await fs.writeFileSync(
     `/${Comands.Dir}/${Comands.Node}/${time}/main.js`,
     `${code}
-    ${afterRunTest || ''}
+    ${afterRunTest ? afterRunTest : ''}
     `,
     "utf8"
   );
