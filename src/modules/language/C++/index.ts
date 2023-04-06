@@ -3,12 +3,14 @@ import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
 import * as fs from "fs";
 import { IArg, IResult } from "../../../interfaces/module.interface";
+import { Code } from "./enums/code";
 
 const Run = async ({
   code,
   input,
   timeout,
   similarWorkingJobCount,
+  afterRunTest
 }: IArg): Promise<IResult> => {
   const time = Date.now();
   const process = exec(
@@ -24,23 +26,33 @@ const Run = async ({
     `cd /${Comands.Dir}/${Comands["DirC++"]}/${time}/`,
     `\n`,
     `
-  echo ${JSON.stringify(code)} > /${Comands.Dir}/${
+  `,
+  `
+  echo ${JSON.stringify(`
+  ${afterRunTest ? Code.START : ''}
+
+  ${code}
+
+  ${afterRunTest || ''}
+
+  ${afterRunTest ? Code.END : ''}
+  `)} > /${Comands.Dir}/${
       Comands["DirC++"]
     }/${time}/main.cpp && echo ${JSON.stringify(input)} > /${Comands.Dir}/${
       Comands["DirC++"]
     }/${time}/input.txt
   `,
+  `wget https://raw.githubusercontent.com/eecs280staff/unit_test_framework/master/unit_test_framework.h`,
     `\n`,
-    `g++ /${Comands.Dir}/${Comands["DirC++"]}/${time}/main.cpp`,
+    `g++ --std=c++11  main.cpp -o main.exe`,
     `\n`,
+    './main.exe'
   ];
   if (input) {
-    commands.push(`./a.out  < input.txt > output.txt`);
-  } else {
-    commands.push(`./a.out  > output.txt`);
+    commands.push(`./${Comands.Dir}/${Comands["DirC++"]}/${time}/a.out  < input.txt > output.txt`);
   }
   commands.push(`\n`);
-  commands.push(`cat /${Comands.Dir}/${Comands["DirC++"]}/${time}/output.txt`);
+  //commands.push(`cat /${Comands.Dir}/${Comands["DirC++"]}/${time}/output.txt`);
   await fs.writeFileSync(
     `/${Comands.Dir}/${Comands["DirC++"]}/${time}/main.sh`,
     commands.join(" "),
@@ -66,6 +78,7 @@ const Run = async ({
           resolve(codes);
         }
       );
+      resolve(null)
     });
     clearTimeout(timer);
   }, timeout || 1000);

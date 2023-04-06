@@ -14,6 +14,8 @@ const construct = ():void => {
       echo(Message.Ts);
    }
    for (const lang in Languages){
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       Languages[lang as Language].Install()
    }
 }

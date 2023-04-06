@@ -22,6 +22,8 @@ class Compiler {
     afterRunTest
   }: ICompileArg): Promise<ICompileResult> {
     try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       const { id, start_date } = await Languages[language].Run({
         code,
         input: input || "",
@@ -68,29 +70,43 @@ class Compiler {
         key: 'javascript',
         value: this.languages.Node,
         label: '(Node Js) Javascript',
-        ext: 'js',
-        input: false,
+        ext: 'js'
+      },
+      {
+        key: 'csharp',
+        value: this.languages["C#"],
+        label: 'C#',
+        ext: 'cs'
+      },
+      {
+        key: 'python',
+        value: this.languages.Python,
+        label: 'Python',
+        ext: 'py'
+      },
+      {
+        key: 'php',
+        value: this.languages.Php,
+        label: 'Php',
+        ext: 'php'
       },
       {
         key: 'cpp',
         value: this.languages['C++'],
         label: this.languages['C++'],
-        ext: 'cpp',
-        input: true,
+        ext: 'cpp'
       },
       {
         key: 'c',
         value: this.languages.C,
         label: this.languages.C,
-        ext: 'c',
-        input: true,
+        ext: 'c'
       },
       {
         key: 'java',
         value: this.languages.Java,
         label: this.languages.Java,
-        ext: 'java',
-        input: true,
+        ext: 'java'
       },
     ]
   }

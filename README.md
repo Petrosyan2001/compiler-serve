@@ -17,6 +17,25 @@ Or [yarn](https://yarnpkg.com/)
 yarn add @compiler-server/compiler
 ```
 
+Add Dependency
+
+```bash
+sudo apt --yes --force-yes install wget
+
+# Install Task Spoller
+sudo apt-get --yes --force-yes install -y task-spooler
+
+#Install C++ And C
+sudo apt-get --yes --force-yes install build-essential manpages-dev
+
+
+#Install Java
+sudo apt --yes --force-yes install default-jdk
+
+#Install Maven
+sudo apt --yes --force-yes install maven
+```
+
 ## Usage
 
 ```js
@@ -66,6 +85,24 @@ compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")
                 assertEquals("hello", Main.hello());
             }
         }
+        `,
+        similarWorkingJobCount: 11
+    })
+})()
+//C++
+(async () =>{
+    const result = await compiler.compile({
+        language: Language['C++'],
+        code: `
+         int numbers() {
+           return 1;
+         }
+        `,
+        afterRunTest: `
+            TEST(numbers_equal) {
+             int spam = numbers();
+             ASSERT_EQUAL(spam, 2);
+          }
         `,
         similarWorkingJobCount: 11
     })
