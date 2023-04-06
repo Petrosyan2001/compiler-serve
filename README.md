@@ -107,6 +107,22 @@ compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")
         similarWorkingJobCount: 11
     })
 })()
+//C
+(async () =>{
+    const result = await compiler.compile({
+        language: Language.C,
+        code: `
+        int my_sum(int a, int b) {
+        return a + b;
+        }
+        `,
+        afterRunTest: `
+        assert(3 == my_sum(1, 1));
+        assert(2 == my_sum(1, 1));
+        `,
+        similarWorkingJobCount: 11
+    })
+})()
 ```
 
 ## Compile Language List

@@ -3,12 +3,14 @@ import { Comands } from "../../../enums/comands";
 import { Message } from "../../../enums/message";
 import * as fs from "fs";
 import { IArg, IResult } from "../../../interfaces/module.interface";
+import { Code } from "./enums/code";
 
 const Run = async ({
   code,
   input,
   timeout,
   similarWorkingJobCount,
+  afterRunTest
 }: IArg): Promise<IResult> => {
   const time = Date.now();
   const process = exec(
@@ -23,7 +25,11 @@ const Run = async ({
   const commands = [
     `cd /${Comands.Dir}/${Comands.DirC}/${time}/`,
     `\n`,
-    `echo ${JSON.stringify(code)} > /${Comands.Dir}/${
+    `echo ${JSON.stringify((afterRunTest ? Code.START : '')+' '+code + ' ' + (afterRunTest ? `  int main() {
+      ${afterRunTest}
+      printf("OK");
+      return 0;
+   }` : ''))} > /${Comands.Dir}/${
       Comands.DirC
     }/${time}/main.c && echo ${JSON.stringify(input)} > /${Comands.Dir}/${
       Comands.DirC
