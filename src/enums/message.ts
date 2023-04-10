@@ -3,5 +3,6 @@ export enum Message {
     Node = "Sorry, this script requires node",
     'C++' =  "Sorry, this script requires C++",
     C = 'Sorry, this script requires C',
-    Java = 'Sorry, this script requires Java'
+    Java = 'Sorry, this script requires Java',
+    CSharp = 'Sorry, this script requires C#'
 }

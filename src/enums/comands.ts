@@ -11,5 +11,7 @@ export enum Comands {
     DirC = 'cdir',
     JavaInstall = 'sudo apt install default-jdk',
     Java = 'javac',
-    JavaDir = 'java'
+    JavaDir = 'java',
+    CSharp = 'dotnet',
+    DirCsharp ='csarp'
 }

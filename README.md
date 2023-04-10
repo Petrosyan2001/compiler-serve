@@ -123,6 +123,33 @@ compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")
         similarWorkingJobCount: 11
     })
 })()
+//C#
+(async () =>{
+    const result = await compiler.compile({
+        language: Language['C#'],
+        code: `
+        public int Show()
+        {  
+           return 1;
+        }  
+
+        public int Run()
+         {
+            Program program = new Program();
+            return program.Show();    
+         }
+        `,
+        afterRunTest: `
+        static void Main()  
+        {  
+           Program program = new Program();
+           Console.WriteLine("T E S T S");
+           Debug.Assert(program.Run() == 2, " Value should not be 2.");
+           Console.ReadLine();
+        }  `,
+        similarWorkingJobCount: 11
+    })
+})()
 ```
 
 ## Compile Language List
@@ -131,6 +158,6 @@ compiler.compile({language: compiler.languages.Node, code: `console.log("Hello")
 - C++
 - C
 - Java
-
+- C#
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
